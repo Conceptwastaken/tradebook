@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tradebook — Feed mockup</title>
+    <style>
+      :root {
+        --bg: #0a0b0f;
+        --panel: #151b23;
+        --field: #1b222c;
+        --field-border: #262f3b;
+        --border-light: #333e4c;
+        --text: #eceff3;
+        --text-dim: #9aa5b1;
+        --text-faint: #626d7a;
+        --sell: #e0574a;
+        --win: #3ddc84;
+        --accent: #ffffff;
+        --amber: #e6b25c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #000;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 24px 0 60px;
+      }
+      .phone {
+        width: 390px;
+        background: var(--bg);
+        border-radius: 36px;
+        box-shadow:
+          0 0 0 8px #111,
+          0 0 40px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 2px solid var(--accent);
+      }
+      .brand {
+        color: var(--text);
+        letter-spacing: 1.5px;
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 999px;
+        border: 1px solid var(--field-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-dim);
+      }
+      .icon-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .feed-tabs {
+        display: flex;
+        gap: 6px;
+        padding: 14px 20px 10px;
+      }
+      .feed-tab {
+        padding: 7px 16px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        background: var(--field);
+        color: var(--text-dim);
+        border: 1px solid var(--field-border);
+      }
+      .feed-tab.active {
+        background: var(--accent);
+        color: #0a0b0f;
+        border-color: var(--accent);
+      }
+
+      .feed {
+        padding: 4px 16px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .post-card {
+        background: var(--panel);
+        border: 1px solid var(--field-border);
+        border-radius: 14px;
+        padding: 16px;
+      }
+      .post-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .post-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .post-user-line {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .post-username {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 999px;
+      }
+      .badge-verified {
+        background: rgba(61, 220, 132, 0.14);
+        color: var(--win);
+      }
+      .badge-verified svg {
+        width: 10px;
+        height: 10px;
+      }
+      .badge-unverified {
+        background: var(--field);
+        color: var(--text-faint);
+        border: 1px solid var(--field-border);
+      }
+      .post-time {
+        font-size: 12px;
+        color: var(--text-faint);
+        margin-left: auto;
+      }
+
+      .post-pair-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .pair-chip {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+        background: var(--field);
+        border: 1px solid var(--field-border);
+        padding: 4px 10px;
+        border-radius: 8px;
+      }
+      .dir-chip {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 9px;
+        border-radius: 8px;
+      }
+      .dir-buy {
+        background: rgba(61, 220, 132, 0.14);
+        color: var(--win);
+      }
+      .dir-sell {
+        background: rgba(224, 87, 74, 0.14);
+        color: var(--sell);
+      }
+
+      .post-result {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .post-result-value {
+        font-size: 26px;
+        font-weight: 800;
+        line-height: 1;
+      }
+      .post-result-value.win {
+        color: var(--win);
+      }
+      .post-result-value.loss {
+        color: var(--sell);
+      }
+      .post-result-label {
+        font-size: 12px;
+        color: var(--text-dim);
+        font-weight: 600;
+      }
+
+      .post-caption {
+        font-size: 13px;
+        color: var(--text-dim);
+        line-height: 1.5;
+        margin-bottom: 2px;
+      }
+
+      .unverified-note {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        color: var(--text-faint);
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--field-border);
+      }
+
+      .tabbar {
+        display: flex;
+        justify-content: space-around;
+        padding: 12px 0 10px;
+        background: #000;
+        color: var(--text-faint);
+        font-size: 10px;
+      }
+      .tabbar .tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .tabbar .tab.active {
+        color: var(--text);
+      }
+      .tabbar svg {
+        width: 19px;
+        height: 19px;
+      }
+
+      .section-note {
+        margin: 30px 20px 0;
+        font-size: 12px;
+        color: var(--text-faint);
+        text-align: center;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone">
+      <div class="topbar">
+        <div class="brand">TRADEBOOK</div>
+        <div class="topbar-right">
+          <div class="icon-btn">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+          </div>
+          <div
+            class="icon-btn"
+            style="
+              width: 32px;
+              height: 32px;
+              background: var(--accent);
+              color: #111;
+              font-family: &quot;Bebas Neue&quot;, sans-serif;
+              font-size: 13px;
+            "
+          >
+            GB
+          </div>
+        </div>
+      </div>
+
+      <div class="feed-tabs">
+        <div class="feed-tab active">Following</div>
+        <div class="feed-tab">Discover</div>
+      </div>
+
+      <div class="feed">
+        <!-- Post 1 — verified win -->
+        <div class="post-card">
+          <div class="post-head">
+            <div class="post-avatar">DM</div>
+            <div>
+              <div class="post-user-line">
+                <span class="post-username">damimarks</span>
+                <span class="badge badge-verified">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 2l2.4 2.2 3.2-.5 1 3.1 3 1.3-.9 3.2 1.9 2.7-1.9 2.7.9 3.2-3 1.3-1 3.1-3.2-.5L12 22l-2.4-2.2-3.2.5-1-3.1-3-1.3.9-3.2L1.4 12l1.9-2.7-.9-3.2 3-1.3 1-3.1 3.2.5z"
+                    />
+                    <path
+                      d="M9 12l2 2 4-4"
+                      stroke="#0a0b0f"
+                      stroke-width="2"
+                      fill="none"
+                    />
+                  </svg>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <span class="post-time">2h</span>
+          </div>
+          <div class="post-pair-row">
+            <span class="pair-chip">XAUUSD</span>
+            <span class="dir-chip dir-buy">Buy</span>
+          </div>
+          <div class="post-result">
+            <span class="post-result-value win">+2.4R</span>
+            <span class="post-result-label">Win</span>
+          </div>
+          <div class="post-caption">
+            Waited for the London session sweep before entering — patience paid
+            off on this one.
+          </div>
+        </div>
+
+        <!-- Post 2 — unverified loss -->
+        <div class="post-card">
+          <div class="post-head">
+            <div class="post-avatar">KO</div>
+            <div class="post-user-line">
+              <span class="post-username">kelvin_fx</span>
+              <span class="badge badge-unverified">Unverified</span>
+            </div>
+            <span class="post-time">5h</span>
+          </div>
+          <div class="post-pair-row">
+            <span class="pair-chip">GBPUSD</span>
+            <span class="dir-chip dir-sell">Sell</span>
+          </div>
+          <div class="post-result">
+            <span class="post-result-value loss">-1.0R</span>
+            <span class="post-result-label">Loss</span>
+          </div>
+          <div class="post-caption">
+            Got stopped out right before it reversed in my favor. Onto the next
+            one.
+          </div>
+        </div>
+
+        <!-- Post 3 — verified win, no caption -->
+        <div class="post-card">
+          <div class="post-head">
+            <div class="post-avatar">TN</div>
+            <div class="post-user-line">
+              <span class="post-username">tobi_trades</span>
+              <span class="badge badge-verified">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2l2.4 2.2 3.2-.5 1 3.1 3 1.3-.9 3.2 1.9 2.7-1.9 2.7.9 3.2-3 1.3-1 3.1-3.2-.5L12 22l-2.4-2.2-3.2.5-1-3.1-3-1.3.9-3.2L1.4 12l1.9-2.7-.9-3.2 3-1.3 1-3.1 3.2.5z"
+                  />
+                  <path
+                    d="M9 12l2 2 4-4"
+                    stroke="#0a0b0f"
+                    stroke-width="2"
+                    fill="none"
+                  />
+                </svg>
+                Verified
+              </span>
+            </div>
+            <span class="post-time">1d</span>
+          </div>
+          <div class="post-pair-row">
+            <span class="pair-chip">NAS100</span>
+            <span class="dir-chip dir-buy">Buy</span>
+          </div>
+          <div class="post-result">
+            <span class="post-result-value win">+3.8R</span>
+            <span class="post-result-label">Win</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-note">
+        Results shown as R-multiples (reward achieved relative to risk) — never
+        dollar amounts, so account size stays private even when a trade is
+        shared.
+      </div>
+
+      <div class="tabbar">
+        <div class="tab">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          </svg>
+          Home
+        </div>
+        <div class="tab active">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"
+            />
+          </svg>
+          Feed
+        </div>
+        <div class="tab">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M4 4h16v16H4z" />
+            <path d="M4 9h16M9 4v16" />
+          </svg>
+          Trades
+        </div>
+        <div class="tab">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M3 3v18h18" />
+            <path d="M18 9l-5 5-4-4-4 4" />
+          </svg>
+          Performance
+        </div>
+        <div class="tab">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          Settings
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

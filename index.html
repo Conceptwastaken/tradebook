@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trading Journal for Stocks, Forex & Crypto | Tradebook</title>
+    <meta
+      name="description"
+      content="Log every trade in 30 seconds and see exactly why you're winning or losing. Tradebook is the trading journal for stocks, forex & crypto traders worldwide. No card required."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tradebook" />
+    <meta
+      property="og:title"
+      content="Tradebook — The Trading Journal That Keeps You Honest"
+    />
+    <meta
+      property="og:description"
+      content="Log every trade in 30 seconds and see exactly why you're winning or losing. Built for stocks, forex & crypto traders worldwide."
+    />
+    <meta property="og:image" content="/images/icon-192.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Tradebook — The Trading Journal That Keeps You Honest"
+    />
+    <meta
+      name="twitter:description"
+      content="Log every trade in 30 seconds and see exactly why you're winning or losing."
+    />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <link rel="icon" href="/images/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="/images/icon-192.png"
+      type="image/png"
+      sizes="192x192"
+    />
+    <link rel="apple-touch-icon" href="/images/icon-180.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#111111" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #fafaf8;
+        --paper-alt: #f4f4f2;
+        --ink: #111214;
+        --slate: #5b5f66;
+        --rule: #dedfe1;
+        --gain: #14724e;
+        --loss: #a32d22;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: 3px;
+      }
+
+      .wordmark {
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 1px;
+      }
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      /* Anchor targets land clear of the sticky header instead of
+         disappearing underneath it. */
+      #features,
+      #model {
+        scroll-margin-top: 88px;
+      }
+
+      /* ---------- HEADER ---------- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        padding: 20px 6%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(250, 250, 248, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .logo-link {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        transition: opacity 0.15s ease;
+      }
+      .logo-link:hover {
+        opacity: 0.7;
+      }
+      .logo {
+        font-size: 1.7rem;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+      nav a.link {
+        color: var(--slate);
+        text-decoration: none;
+        font-size: 0.92rem;
+        font-weight: 500;
+        transition: color 0.15s ease;
+      }
+      nav a.link:hover {
+        color: var(--ink);
+      }
+      .get-started {
+        background: var(--ink);
+        color: #fff;
+        padding: 11px 24px;
+        border-radius: 2px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+        transition: background 0.15s ease;
+      }
+      .get-started:hover {
+        background: #2c2e33;
+      }
+
+      @media (max-width: 480px) {
+        header {
+          padding: 16px 5%;
+        }
+        .logo {
+          font-size: 1.3rem;
+        }
+        nav {
+          gap: 14px;
+        }
+        nav a.link {
+          display: none;
+        }
+        .get-started {
+          padding: 9px 16px;
+          font-size: 0.82rem;
+        }
+      }
+
+      /* ---------- HERO ---------- */
+      .hero {
+        position: relative;
+        padding: 90px 6% 0;
+      }
+      .hero-eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        color: var(--slate);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hero-eyebrow::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: var(--gain);
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .hero-head-row {
+        position: relative;
+        max-width: 1100px;
+      }
+      .hero h1 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(3.2rem, 9vw, 7.5rem);
+        line-height: 0.92;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+      }
+      .hero h1 .outline {
+        -webkit-text-stroke: 1.5px var(--ink);
+        color: var(--paper);
+      }
+
+      /* Signature element: a rubber-stamp mark echoing the "keeps you
+         honest" / audit idea, set at a hairline-consistent angle. */
+      .stamp {
+        position: absolute;
+        top: -6px;
+        right: 4%;
+        width: 118px;
+        height: 118px;
+        border: 1.5px solid var(--loss);
+        border-radius: 50%;
+        transform: rotate(-11deg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        color: var(--loss);
+        font-family: "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: center;
+        pointer-events: none;
+        opacity: 0.85;
+      }
+      .stamp::before {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 1px solid var(--loss);
+        border-radius: 50%;
+      }
+      .stamp b {
+        font-size: 0.62rem;
+        line-height: 1.3;
+      }
+      .stamp span {
+        font-size: 0.52rem;
+        opacity: 0.85;
+      }
+      @media (max-width: 900px) {
+        .stamp {
+          display: none;
+        }
+      }
+
+      .hero-sub {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 40px;
+        flex-wrap: wrap;
+        padding: 30px 0 60px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .hero-sub p {
+        font-size: 1.15rem;
+        color: var(--slate);
+        max-width: 480px;
+      }
+      .hero-cta-group {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-shrink: 0;
+      }
+      .hero-cta {
+        display: inline-block;
+        background: var(--ink);
+        color: #fff;
+        padding: 16px 32px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 2px;
+        white-space: nowrap;
+        transition: background 0.15s ease;
+      }
+      .hero-cta:hover {
+        background: #2c2e33;
+      }
+      .hero-note {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--slate);
+      }
+
+      /* ---------- TICKER ---------- */
+      .ticker-band {
+        background: var(--ink);
+        color: var(--paper);
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--ink);
+      }
+      .ticker-track {
+        display: inline-flex;
+        gap: 48px;
+        animation: scroll 32s linear infinite;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.95rem;
+      }
+      .ticker-band:hover .ticker-track {
+        animation-play-state: paused;
+      }
+      .tick {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .tick .up {
+        color: #4ade80;
+      }
+      .tick .down {
+        color: #f87171;
+      }
+      @keyframes scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ---------- LEDGER FEATURES ---------- */
+      .ledger {
+        padding: 100px 6% 90px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .ledger-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 50px;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .ledger-head h2 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        letter-spacing: 0.5px;
+      }
+      .ledger-head span {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        color: var(--slate);
+      }
+
+      .entry {
+        display: grid;
+        grid-template-columns: 140px 1fr 260px;
+        gap: 32px;
+        align-items: start;
+        padding: 34px 0;
+        border-top: 1px solid var(--rule);
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .entry.in-view {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .entry:last-child {
+        border-bottom: 1px solid var(--rule);
+      }
+      .entry:nth-child(even) {
+        grid-template-columns: 260px 1fr 140px;
+      }
+      .entry:nth-child(even) .entry-stat {
+        order: -1;
+      }
+      .entry-tag {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--gain);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-top: 4px;
+      }
+      .entry-body h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .entry-body p {
+        color: var(--slate);
+        font-size: 1rem;
+        max-width: 520px;
+      }
+      .entry-stat {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--ink);
+        background: #f1f1ef;
+        padding: 14px 16px;
+        border-left: 2px solid var(--ink);
+      }
+      .entry-stat b {
+        display: block;
+        font-size: 1.6rem;
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+      }
+
+      @media (max-width: 780px) {
+        .entry,
+        .entry:nth-child(even) {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+        .entry:nth-child(even) .entry-stat {
+          order: 0;
+        }
+      }
+
+      /* ---------- INTERACTIVE RISK SIMULATOR ---------- */
+      .calc-section {
+        padding: 80px 6%;
+        background: var(--paper-alt);
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+      }
+      .calc-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: center;
+      }
+      @media (max-width: 860px) {
+        .calc-wrap {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+      }
+      .calc-left h2 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+      }
+      .calc-left p {
+        color: var(--slate);
+        font-size: 1rem;
+        margin-bottom: 24px;
+      }
+      .slider-control {
+        margin-bottom: 20px;
+      }
+      .slider-control .sc-head {
+        display: flex;
+        justify-content: space-between;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+      .slider-control input[type="range"] {
+        width: 100%;
+        accent-color: var(--ink);
+        height: 6px;
+        cursor: pointer;
+      }
+      .calc-card {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 36px 32px;
+        border-radius: 2px;
+        text-align: center;
+      }
+      .calc-card-title {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        letter-spacing: 1.5px;
+        color: #9a9d9f;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .calc-card-val {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 3.8rem;
+        letter-spacing: 1px;
+        color: #4ade80;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .calc-card-sub {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.85rem;
+        color: #dedfe1;
+      }
+      .calc-card-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .calc-card-stat {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        color: #9a9d9f;
+      }
+      .calc-card-stat b {
+        display: block;
+        color: #fff;
+        font-size: 1.15rem;
+        margin-top: 2px;
+      }
+
+      /* ---------- PULL QUOTE ---------- */
+      .pull {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 110px 6%;
+        text-align: center;
+      }
+      .pull p {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+        max-width: 900px;
+        margin: 0 auto;
+        line-height: 1.15;
+        letter-spacing: 0.4px;
+      }
+      .pull span {
+        color: #f87171;
+      }
+      .pull small {
+        display: block;
+        margin-top: 26px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        color: #9a9d9f;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      /* ---------- BUILT FOR ---------- */
+      .markets {
+        padding: 90px 6%;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-bottom: 1px solid var(--rule);
+      }
+      .markets span {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.85rem;
+        padding: 10px 20px;
+        border: 1px solid var(--rule);
+        border-radius: 2px;
+        color: var(--slate);
+      }
+
+      /* ---------- THREE MOVES (process) ---------- */
+      .process {
+        padding: 90px 6%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .process-head {
+        margin-bottom: 46px;
+      }
+      .process-head span.mono {
+        font-size: 0.8rem;
+        color: var(--gain);
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 10px;
+      }
+      .process-head h2 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        letter-spacing: 0.5px;
+      }
+      .process-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+      }
+      .process-step {
+        background: var(--paper);
+        padding: 34px 28px;
+      }
+      .process-step .num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.4rem;
+        color: var(--rule);
+        line-height: 1;
+        margin-bottom: 18px;
+      }
+      .process-step h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .process-step p {
+        color: var(--slate);
+        font-size: 0.94rem;
+      }
+      @media (max-width: 780px) {
+        .process-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ---------- FINAL CTA ---------- */
+      .final-cta {
+        padding: 120px 6%;
+        text-align: center;
+      }
+      .final-cta h2 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(2.4rem, 6vw, 4.5rem);
+        margin-bottom: 30px;
+        letter-spacing: 0.5px;
+      }
+      .final-cta .hero-cta {
+        font-size: 1.05rem;
+        padding: 18px 38px;
+      }
+
+      /* ---------- FOOTER ---------- */
+      footer {
+        border-top: 1px solid var(--rule);
+        background: var(--paper-alt);
+      }
+      .footer-main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 70px 6% 50px;
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr 1fr;
+        gap: 40px;
+      }
+      .footer-brand .logo-link {
+        margin-bottom: 14px;
+      }
+      .footer-brand .footer-mark {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.5rem;
+        color: var(--ink);
+        letter-spacing: 1px;
+      }
+      .footer-brand p {
+        color: var(--slate);
+        font-size: 0.92rem;
+        max-width: 280px;
+        margin-bottom: 18px;
+      }
+      .footer-brand .foot-eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--slate);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      .footer-col h4 {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--slate);
+        margin-bottom: 16px;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .footer-col a {
+        text-decoration: none;
+        font-size: 0.94rem;
+        font-weight: 500;
+        color: var(--ink);
+        transition: color 0.15s ease;
+      }
+      .footer-col a:hover {
+        color: var(--gain);
+      }
+      @media (max-width: 780px) {
+        .footer-main {
+          grid-template-columns: 1fr 1fr;
+        }
+        .footer-brand {
+          grid-column: 1 / -1;
+        }
+        .footer-col h4 {
+          margin-bottom: 10px;
+        }
+        .footer-col ul {
+          gap: 10px;
+        }
+      }
+      @media (max-width: 480px) {
+        .footer-main {
+          padding: 44px 5% 32px;
+          gap: 24px 16px;
+        }
+        .footer-brand p {
+          max-width: none;
+        }
+      }
+
+      .footer-bottom {
+        border-top: 1px solid var(--rule);
+      }
+      .footer-bottom-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 22px 6%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .footer-bottom .copyright {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.75rem;
+        color: #9a9d9f;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .footer-bottom .foot-markets {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--slate);
+        letter-spacing: 0.5px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ticker-track {
+          animation: none;
+        }
+        .entry {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo-link" href="index.html" aria-label="Tradebook home">
+        <div class="logo wordmark">TRADEBOOK</div>
+      </a>
+      <nav>
+        <a class="link" href="#features">Features</a>
+        <a class="link" href="#model">Risk Model</a>
+        <a class="link" href="privacy.html">Privacy</a>
+        <a class="link" href="terms.html">Terms</a>
+        <a class="get-started" href="onboarding.html">Get Started</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-eyebrow">Now tracking stocks, forex &amp; crypto</div>
+      <div class="hero-head-row">
+        <div class="stamp" aria-hidden="true">
+          <b>SELF<br />AUDITED</b>
+          <span>NO EXCUSES</span>
+        </div>
+        <h1>
+          THE TRADING JOURNAL<br />THAT KEEPS YOU
+          <span class="outline">HONEST.</span>
+        </h1>
+      </div>
+      <div class="hero-sub">
+        <p>
+          Log every trade, spot the patterns your gut misses, and actually fix
+          what's costing you money — built for traders anywhere in the world.
+        </p>
+        <div class="hero-cta-group">
+          <a class="hero-cta" href="onboarding.html">Get Started</a>
+          <span class="hero-note">No card required</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker-band" aria-hidden="true">
+      <div class="ticker-track">
+        <span class="tick">AAPL <span class="up">+2.4%</span></span>
+        <span class="tick">EUR/USD <span class="down">-0.8%</span></span>
+        <span class="tick">BTC <span class="up">+5.1%</span></span>
+        <span class="tick">TSLA <span class="down">-1.2%</span></span>
+        <span class="tick">XAU/USD <span class="up">+1.6%</span></span>
+        <span class="tick">GBP/JPY <span class="up">+0.6%</span></span>
+        <span class="tick">NAS100 <span class="up">+1.1%</span></span>
+        <span class="tick">ETH <span class="up">+3.3%</span></span>
+        <span class="tick">NVDA <span class="up">+1.9%</span></span>
+        <span class="tick">USD/ZAR <span class="down">-0.4%</span></span>
+        <span class="tick">AAPL <span class="up">+2.4%</span></span>
+        <span class="tick">EUR/USD <span class="down">-0.8%</span></span>
+        <span class="tick">BTC <span class="up">+5.1%</span></span>
+        <span class="tick">TSLA <span class="down">-1.2%</span></span>
+        <span class="tick">XAU/USD <span class="up">+1.6%</span></span>
+        <span class="tick">GBP/JPY <span class="up">+0.6%</span></span>
+        <span class="tick">ETH <span class="up">+3.3%</span></span>
+        <span class="tick">NVDA <span class="up">+1.9%</span></span>
+      </div>
+    </div>
+
+    <section class="ledger" id="features">
+      <div class="ledger-head">
+        <h2>What goes in the ledger</h2>
+        <span>CLEAR PRINCIPLES. TOTAL HONESTY.</span>
+      </div>
+
+      <div class="entry">
+        <div class="entry-tag">[ LOG ]</div>
+        <div class="entry-body">
+          <h3>Log every trade</h3>
+          <p>
+            Entry, exit, size, and notes. A clean, permanent record of every
+            position you take, written down before your memory rewrites it.
+          </p>
+        </div>
+        <div class="entry-stat"><b>30 SEC</b>average time to log a trade</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-tag">[ DUAL SPEED ]</div>
+        <div class="entry-body">
+          <h3>Live setups &amp; closed fast logging</h3>
+          <p>
+            Split buttons for any workflow: map planned live trades with
+            automated R:R and risk calculation, or drop already closed trades
+            with typed P&amp;L in 5 seconds.
+          </p>
+        </div>
+        <div class="entry-stat"><b>2 MODES</b>% risk or direct USD amount</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-tag">[ PSYCHOLOGY ]</div>
+        <div class="entry-body">
+          <h3>Emotion &amp; mindset tagging</h3>
+          <p>
+            Track 9 psychological states (Disciplined, FOMO, Revenge, Greedy,
+            Hesitant, Calm, Confident). Identify the emotional states that
+            reliably drain your edge.
+          </p>
+        </div>
+        <div class="entry-stat"><b>9 MOODS</b>audited on every execution</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-tag">[ RECAP ]</div>
+        <div class="entry-body">
+          <h3>7-day rolling weekly audit</h3>
+          <p>
+            Automated performance recap with net P&amp;L, win rate, best trade,
+            and largest loss so you always start Monday with calibrated
+            perspective.
+          </p>
+        </div>
+        <div class="entry-stat"><b>1 RECAP</b>generated automatically</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-tag">[ MARKETS ]</div>
+        <div class="entry-body">
+          <h3>Works across markets</h3>
+          <p>
+            Stocks, forex, commodities, or crypto — one journal for every market
+            you trade, wherever you're trading from and whatever currency you
+            think in.
+          </p>
+        </div>
+        <div class="entry-stat"><b>4+</b>asset classes, one account</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-tag">[ ANALYZE ]</div>
+        <div class="entry-body">
+          <h3>See your patterns</h3>
+          <p>
+            Win rate, average R, and exactly where your discipline breaks down —
+            the numbers your gut feel has been hiding from you.
+          </p>
+        </div>
+        <div class="entry-stat"><b>0</b>guesswork left after 20 trades</div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE DISCIPLINE & RISK MODELER -->
+    <section class="calc-section" id="model">
+      <div class="calc-wrap">
+        <div class="calc-left">
+          <div
+            class="mono"
+            style="
+              font-size: 0.8rem;
+              color: var(--gain);
+              letter-spacing: 1px;
+              text-transform: uppercase;
+              margin-bottom: 8px;
+            "
+          >
+            [ RISK SIMULATOR ]
+          </div>
+          <h2>Compound with discipline</h2>
+          <p>
+            Test how adhering strictly to fixed risk management and 1:2 R:R
+            targets multiplies your baseline capital across 50 trades.
+          </p>
+
+          <div class="slider-control">
+            <div class="sc-head">
+              <span>STARTING BALANCE</span>
+              <span id="calcBalVal">$10,000</span>
+            </div>
+            <input
+              type="range"
+              id="calcBalSlider"
+              min="1000"
+              max="100000"
+              step="1000"
+              value="10000"
+            />
+          </div>
+
+          <div class="slider-control">
+            <div class="sc-head">
+              <span>RISK PER TRADE (%)</span>
+              <span id="calcRiskVal">1.5%</span>
+            </div>
+            <input
+              type="range"
+              id="calcRiskSlider"
+              min="0.5"
+              max="5.0"
+              step="0.5"
+              value="1.5"
+            />
+          </div>
+
+          <div class="slider-control">
+            <div class="sc-head">
+              <span>WIN RATE (%)</span>
+              <span id="calcWinVal">60%</span>
+            </div>
+            <input
+              type="range"
+              id="calcWinSlider"
+              min="35"
+              max="80"
+              step="5"
+              value="60"
+            />
+          </div>
+        </div>
+
+        <div class="calc-card">
+          <div class="calc-card-title">PROJECTED 50-TRADE EQUITY</div>
+          <div class="calc-card-val" id="calcResultDisplay">$13,750</div>
+          <div class="calc-card-sub" id="calcRoiDisplay">
+            +37.5% Compounded Growth
+          </div>
+
+          <div class="calc-card-grid">
+            <div class="calc-card-stat">
+              <span>DOLLAR RISK / TRADE</span>
+              <b id="calcDollarRiskDisplay">$150.00</b>
+            </div>
+            <div class="calc-card-stat">
+              <span>AVG TARGET (1:2 R:R)</span>
+              <b id="calcDollarRewardDisplay">+$300.00</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pull">
+      <p>
+        Most traders lose money for reasons they <span>never write down.</span>
+      </p>
+      <small>Tradebook exists to close that gap</small>
+    </section>
+
+    <section class="markets">
+      <span>NGX</span>
+      <span>NYSE</span>
+      <span>NASDAQ</span>
+      <span>LSE</span>
+      <span>FOREX MAJORS</span>
+      <span>GOLD &amp; METALS</span>
+      <span>CRYPTO</span>
+      <span>+ MORE</span>
+    </section>
+
+    <section class="process">
+      <div class="process-head">
+        <span class="mono">[ THE WORKFLOW ]</span>
+        <h2>Three moves to your first entry</h2>
+      </div>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="num">01</div>
+          <h3>Log the trade</h3>
+          <p>
+            Planned or already closed — pair, entry, exit, size. Risk and reward
+            calculate themselves.
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="num">02</div>
+          <h3>Tag the mindset</h3>
+          <p>
+            Mark the state you traded from — disciplined, FOMO, revenge — while
+            it's still fresh.
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="num">03</div>
+          <h3>Read the recap</h3>
+          <p>
+            Every week, Tradebook hands you the pattern back: what worked, what
+            didn't, and why.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <h2>Start your ledger today.</h2>
+      <a class="hero-cta" href="onboarding.html">Get Started</a>
+    </section>
+
+    <footer>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="logo-link" href="index.html" aria-label="Tradebook home">
+            <div class="footer-mark wordmark">TRADEBOOK</div>
+          </a>
+          <p>
+            The trading journal that keeps you honest — built for stocks, forex,
+            and crypto traders anywhere in the world.
+          </p>
+          <div class="foot-eyebrow">No card required to start</div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#model">Risk Model</a></li>
+            <li><a href="onboarding.html">Get Started</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:velozautomations@gmail.com">Email us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <div class="copyright">
+            &copy; 2026 Tradebook. All rights reserved.
+          </div>
+          <div class="foot-markets">
+            NGX · NYSE · NASDAQ · LSE · FOREX · CRYPTO
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const balSlider = document.getElementById("calcBalSlider");
+      const riskSlider = document.getElementById("calcRiskSlider");
+      const winSlider = document.getElementById("calcWinSlider");
+
+      const balVal = document.getElementById("calcBalVal");
+      const riskVal = document.getElementById("calcRiskVal");
+      const winVal = document.getElementById("calcWinVal");
+
+      const resultDisplay = document.getElementById("calcResultDisplay");
+      const roiDisplay = document.getElementById("calcRoiDisplay");
+      const dollarRiskDisplay = document.getElementById(
+        "calcDollarRiskDisplay",
+      );
+      const dollarRewardDisplay = document.getElementById(
+        "calcDollarRewardDisplay",
+      );
+
+      function updateCalc() {
+        if (!balSlider || !riskSlider || !winSlider) return;
+        const bal = parseFloat(balSlider.value);
+        const riskPct = parseFloat(riskSlider.value);
+        const winRate = parseFloat(winSlider.value) / 100;
+
+        balVal.textContent = "$" + bal.toLocaleString();
+        riskVal.textContent = riskPct.toFixed(1) + "%";
+        winVal.textContent = Math.round(winRate * 100) + "%";
+
+        const dollarRisk = bal * (riskPct / 100);
+        const dollarReward = dollarRisk * 2.0;
+
+        dollarRiskDisplay.textContent = "$" + dollarRisk.toFixed(2);
+        dollarRewardDisplay.textContent = "+$" + dollarReward.toFixed(2);
+
+        const trades = 50;
+        const wins = Math.round(trades * winRate);
+        const losses = trades - wins;
+        const netGrowth = wins * dollarReward - losses * dollarRisk;
+        const finalBal = Math.max(0, bal + netGrowth);
+        const roi = ((finalBal - bal) / bal) * 100;
+
+        resultDisplay.textContent = "$" + Math.round(finalBal).toLocaleString();
+        roiDisplay.textContent =
+          (roi >= 0 ? "+" : "") + roi.toFixed(1) + "% Compounded Growth";
+      }
+
+      if (balSlider && riskSlider && winSlider) {
+        balSlider.addEventListener("input", updateCalc);
+        riskSlider.addEventListener("input", updateCalc);
+        winSlider.addEventListener("input", updateCalc);
+        updateCalc();
+      }
+
+      // Ledger entries fade/slide into view as they're scrolled to,
+      // instead of all appearing at once.
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const entries = document.querySelectorAll(".entry");
+      if (!reduceMotion && "IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (items) => {
+            items.forEach((item) => {
+              if (item.isIntersecting) {
+                item.target.classList.add("in-view");
+                io.unobserve(item.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+        );
+        entries.forEach((el) => io.observe(el));
+      } else {
+        entries.forEach((el) => el.classList.add("in-view"));
+      }
+    </script>
+  </body>
+</html>
