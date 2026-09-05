@@ -10,9 +10,45 @@
 // >>> CHANGE THIS to your actual app subdomain if different <<<
 const APP_URL = "https://app.tradebook.com.ng";
 
+// ---------- cross-subdomain session storage ----------
+// Supabase's default (localStorage) is scoped per-origin, so a session
+// created on tradebook.com.ng is invisible on app.tradebook.com.ng and
+// vice versa -- this caused the login/app redirect loop. Storing the
+// session in a cookie scoped to .tradebook.com.ng fixes that, since
+// cookies with a leading-dot domain are shared across all subdomains.
+const COOKIE_DOMAIN = ".tradebook.com.ng";
+
+function setCookie(name, value, days = 7) {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${COOKIE_DOMAIN}; SameSite=Lax; Secure`;
+}
+function getCookie(name) {
+  const match = document.cookie.match(
+    new RegExp(
+      "(?:^|; )" + name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1") + "=([^;]*)",
+    ),
+  );
+  return match ? decodeURIComponent(match[1]) : null;
+}
+function removeCookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${COOKIE_DOMAIN}`;
+}
+
+const cookieStorage = {
+  getItem: (key) => getCookie(key),
+  setItem: (key, value) => setCookie(key, value),
+  removeItem: (key) => removeCookie(key),
+};
+
 const SUPABASE_URL = "https://ekgsklyozoftzrpzqsqg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable__qcdvIHMqdNS67Awe8D2rg_ORrH0ObY";
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    storage: cookieStorage,
+    persistSession: true,
+    autoRefreshToken: true,
+  },
+});
 
 function showOnly(id) {
   ["loadingScreen", "authScreen", "verifiedScreen"].forEach((s) => {
