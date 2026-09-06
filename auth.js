@@ -215,9 +215,9 @@ document.getElementById("googleAuthBtn").addEventListener("click", async () => {
   await sb.auth.signInWithOAuth({
     provider: "google",
     options: {
-      // Lands back on THIS page (onboarding.html) — bootInner() above
-      // will see the fresh session and redirect to APP_URL on its own.
-      redirectTo: window.location.origin + "/onboarding.html",
+      // Lands directly on the app subdomain now — app.js's bootInner()
+      // has matching hash-token handling to catch it from there.
+      redirectTo: APP_URL,
     },
   });
 });
