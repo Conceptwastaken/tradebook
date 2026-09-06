@@ -17,12 +17,20 @@ const APP_URL = "https://app.tradebook.com.ng";
 // session in a cookie scoped to .tradebook.com.ng fixes that, since
 // cookies with a leading-dot domain are shared across all subdomains.
 const COOKIE_DOMAIN = ".tradebook.com.ng";
+// Browsers silently drop any single cookie over ~4KB — no error, it just
+// never gets set. Supabase's session JSON (access token + refresh token +
+// full user object) usually fits, but Google's identity data (avatar,
+// full name, provider profile fields) regularly pushes it past that limit,
+// which is exactly why Google logins were leaving no session cookie at
+// all. Splitting the value across several smaller numbered cookies and
+// reassembling on read sidesteps the per-cookie cap entirely.
+const COOKIE_CHUNK_SIZE = 3180;
 
 function setCookie(name, value, days = 7) {
   const expires = new Date(Date.now() + days * 864e5).toUTCString();
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; domain=${COOKIE_DOMAIN}; SameSite=Lax; Secure`;
 }
-function getCookie(name) {
+function getRawCookie(name) {
   const match = document.cookie.match(
     new RegExp(
       "(?:^|; )" + name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1") + "=([^;]*)",
@@ -34,10 +42,47 @@ function removeCookie(name) {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${COOKIE_DOMAIN}`;
 }
 
+function setChunkedCookie(name, value) {
+  removeChunkedCookie(name); // clear any previous chunks/count first
+  if (value.length <= COOKIE_CHUNK_SIZE) {
+    setCookie(name, value);
+    return;
+  }
+  const chunkCount = Math.ceil(value.length / COOKIE_CHUNK_SIZE);
+  setCookie(`${name}.chunks`, String(chunkCount));
+  for (let i = 0; i < chunkCount; i++) {
+    setCookie(
+      `${name}.${i}`,
+      value.slice(i * COOKIE_CHUNK_SIZE, (i + 1) * COOKIE_CHUNK_SIZE),
+    );
+  }
+}
+function getChunkedCookie(name) {
+  const chunkCountRaw = getRawCookie(`${name}.chunks`);
+  if (!chunkCountRaw) return getRawCookie(name); // never chunked — plain lookup
+  const chunkCount = parseInt(chunkCountRaw, 10);
+  let value = "";
+  for (let i = 0; i < chunkCount; i++) {
+    const part = getRawCookie(`${name}.${i}`);
+    if (part === null) return null; // a chunk is missing — treat as no session
+    value += part;
+  }
+  return value;
+}
+function removeChunkedCookie(name) {
+  const chunkCountRaw = getRawCookie(`${name}.chunks`);
+  if (chunkCountRaw) {
+    const chunkCount = parseInt(chunkCountRaw, 10);
+    for (let i = 0; i < chunkCount; i++) removeCookie(`${name}.${i}`);
+    removeCookie(`${name}.chunks`);
+  }
+  removeCookie(name);
+}
+
 const cookieStorage = {
-  getItem: (key) => getCookie(key),
-  setItem: (key, value) => setCookie(key, value),
-  removeItem: (key) => removeCookie(key),
+  getItem: (key) => getChunkedCookie(key),
+  setItem: (key, value) => setChunkedCookie(key, value),
+  removeItem: (key) => removeChunkedCookie(key),
 };
 
 const SUPABASE_URL = "https://ekgsklyozoftzrpzqsqg.supabase.co";
